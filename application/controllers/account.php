@@ -88,7 +88,7 @@ class Account extends CI_Controller {
 	
 		$this->load->view('header');
 		$this->load->view('account/profil');
-		$this->load->view('footer');
+		$this->load->view('footer', array('js' => array('fullcalendar', 'fullcalendar-function')));
 	
 	}
 	
