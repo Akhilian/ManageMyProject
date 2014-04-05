@@ -121,10 +121,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `ManageMyProject`.`category` ;
 
 CREATE  TABLE IF NOT EXISTS `ManageMyProject`.`category` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NULL ,
   `gantt_id` INT NOT NULL ,
-  `category_id` INT NOT NULL ,
+  `category_id` INT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_category_gantt1` (`gantt_id` ASC) ,
   INDEX `fk_category_category1` (`category_id` ASC) ,
@@ -151,8 +151,9 @@ CREATE  TABLE IF NOT EXISTS `ManageMyProject`.`task` (
   `name` VARCHAR(45) NULL ,
   `description` VARCHAR(45) NULL ,
   `duration` INT NULL ,
-  `start_date` DATE NULL ,
-  `end_date` DATE NULL ,
+  `start_date` DATETIME NULL ,
+  `end_date` DATETIME NULL ,
+  `progression` FLOAT NULL DEFAULT 0.0 ,
   `category_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_task_category1` (`category_id` ASC) ,
@@ -222,6 +223,26 @@ CREATE  TABLE IF NOT EXISTS `ManageMyProject`.`task_has_predecessor` (
   CONSTRAINT `fk_task_has_task_task2`
     FOREIGN KEY (`predecessor` )
     REFERENCES `ManageMyProject`.`task` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ManageMyProject`.`news`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ManageMyProject`.`news` ;
+
+CREATE  TABLE IF NOT EXISTS `ManageMyProject`.`news` (
+  `id` INT NOT NULL ,
+  `message` VARCHAR(200) NULL ,
+  `link` VARCHAR(45) NULL ,
+  `projet_id` INT NOT NULL ,
+  INDEX `fk_notification_projet1` (`projet_id` ASC) ,
+  PRIMARY KEY (`id`) ,
+  CONSTRAINT `fk_notification_projet1`
+    FOREIGN KEY (`projet_id` )
+    REFERENCES `ManageMyProject`.`projet` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
