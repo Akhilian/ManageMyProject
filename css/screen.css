@@ -169,3 +169,29 @@ a.new-box:hover {
 	height: 200px;
 	overflow: hidden;
 }
+
+/*---------------Background -----------*/
+.logo { background:url(../img/logo.png) no-repeat; margin:28px 0 0; }
+
+/*---------------Button -----------*/
+
+.bt2 {  background-color:#00c9ed; }
+
+/*--------- Slider Active Pagination --------*/
+
+#nav a.activeSlide {  background-color:#00c9ed; }	
+
+/*--------- Features Hover Effect --------*/
+
+.featu h3.feature-active { color:#00c9ed; }	
+.featu p.plus-active  { background-color:#00c9ed; }
+
+/*--------- Z-LAYOUT colors --------*/
+
+.text-right p.subtitles  { color:#00c9ed; }
+.text-left p.subtitles  {  color:#00c9ed; }
+.bts2 {  background-color:#00c9ed; }
+
+/*--------- Newsletter Submit --------*/
+
+input.button-newsletter { background:url(../img/submit.png) no-repeat 24px 10px #00c9ed; }
