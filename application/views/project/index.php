@@ -54,7 +54,7 @@
 						
 		echo '<div class="box">
 			<div class="title">
-				<h1>'.$projects[$i]['nom'].'</h1>
+				<h1>'.$projects[$i]['name'].'</h1>
 			</div>
 					
 			<div class="thumb">
@@ -93,7 +93,7 @@
 						
 			echo '<div class="box">
 				<div class="title">
-					<h1>'.$projects[$i]['nom'].'</h1>
+					<h1>'.$projects[$i]['name'].'</h1>
 				</div>
 					
 				<div class="thumb">
@@ -133,8 +133,7 @@
 	
 	<div class="navbar navbar-fixed-bottom">
 		<div class="navbar-inner">
-			
-		    <ul class="nav">
+			<ul class="nav">
       			<li class="active"><a href="#">Accueil</a></li>
       			<li><a href="<?= site_url('account/manage'); ?>">Mon compte</a></li>
 				<li><a href="<?= site_url('account/logout'); ?>">Deconnexion</a></li>
