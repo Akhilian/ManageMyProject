@@ -20,17 +20,19 @@ class Gantt extends CI_Controller {
 	}
 	
 	public function edit($project, $id = '') {
-	
+		
 		if( ! empty($id) && is_numeric($id))
 		{
 			$this->load->model('gantt_m');
 			$this->load->model('project_m');
+			
+			$this->gantt_m->getJSON($id);
 		
 			if( $this->gantt_m->checkMember($id) === true )
 			{
 				$this->load->view('header');
-				$this->load->view('gantt/diagramm', array('projectId' => $project));
-				$this->load->view('footer');
+				$this->load->view('gantt/diagramm3', array('projectId' => $project));
+				$this->load->view('footer', array('js' => array('raphael-min', 'diagramm')));
 			}
 			else
 				redirect('home/restricted');

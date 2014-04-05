@@ -82,27 +82,79 @@ class Tasks extends CI_Controller {
 	
 		$this->load->model('tasks_m');
 		
-		$this->tasks_m->add($this->session->all_userdata());
+		$category = new Category();
+		$category->where('id', $this->session->userdata('inputCateg'))->get();
+		
+		$task = new Task();
+		$task->name = $this->session->userdata('inputTitle');
+		$task->description = $this->session->userdata('inputDescription');
+		$task->start_date = '2014-01-02';
+		$task->duration = 3600;
+		$task->progression = 0;
+		
+		$previous = new Task();
+		$previous->where_in('id', $this->session->userdata('tasks'))->get();
+		
+		
+		$task->save(array($category, $previous->all));
+		
+		
+/*		foreach ($task->error->all as $e)
+		{
+		    echo $e . "<br />";
+		}*/
+		
+				
+		
 		$this->tasks_m->clear();
 		
 		redirect('tasks/edit/' . $idProject . '/'. $ganttId);
 	
-/*		$this->load->library('form_validation');
+	}
+	
+	public function addCategory($idProject, $ganttId) {
+	
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<p class="alert">','</p>');
 		
-		if($this->form_validation->run() == false)
-		{
+		$this->form_validation->set_rules('name', 'Nom de la catégorie','required');
+	
+		if( $this->form_validation->run() == TRUE) {
+		
+			$gantt = new Gantt();
+			$gantt->where('id', $ganttId)->get();
+			
+			$categ = new Category();
+			$categ->name = $this->input->post('name');
+			$categ->save($gantt);
+			
+			if( $this->input->post('parent') ) {
+				
+				$categParent = new Category();
+				$categParent->where('id', $this->input->post('parent'))->get();				
+				
+				$categ->category_id = $categParent->id;
+				$categ->save();
+			}
+			
+			redirect('tasks/edit/' . $idProject . '/' . $ganttId);
+		
+		}
+		else {
+			
+			$categ = new Category();
+			$categ->where('gantt_id', $ganttId)->get();
+		
 			$this->load->view('header');
-			$this->load->view('tasks/step3', array('projectId' => $idProject,
-													'category' => $this->tasks_m->sortedCategories($ganttId),
-													'ganttId' => $ganttId));
+			$this->load->view('tasks/addCateg',
+				array(
+					'projectId' => $idProject,
+					'categories' => $categ
+				));
 			$this->load->view('footer');
 		}
-		else
-		{
-			echo '<pre>';
-			print_r($this->session->all_userdata());
-			echo '</pre>';
-		}*/
+	
+	
 	}
 	
 	public function endDate_check($str) {

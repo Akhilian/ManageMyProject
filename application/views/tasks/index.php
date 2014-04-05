@@ -16,7 +16,7 @@
 				<h5>Documents</h5>
 				<ul class="nav">
 					<li><span class="badge badge-success">6</span> <a href="<?= site_url('gantt/index/' . $projectId); ?>">Diagramme de Gantt</a></li>
-					<li><span class="badge badge-success">6</span> <a href="<?= site_url('bill/index/' . $projectId); ?>">Factures</a></li>
+					<li><span class="badge badge-success">6</span> <a href="<?= site_url('bills/index/' . $projectId); ?>">Factures</a></li>
 				</ul>
 
 			
@@ -73,6 +73,7 @@
 						<hr />
 						
 						<a href="<?= site_url('tasks/step1/' . $projectId . '/' . $ganttId); ?>" class="btn btn-primary">Ajouter une tâche</a>
+						<a href="<?= site_url('tasks/addCategory/' . $projectId . '/' . $ganttId); ?>" class="btn">Ajouter une categorie</a>
 
 					</div>
 				</div>

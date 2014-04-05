@@ -45,5 +45,15 @@ WHERE manager = ' . $this->session->userdata('id'));
 		return (count($data->result_array()) >= 1) ? true : false;
 	
 	}
+	
+	public function getJSON($idGantt) {
+	
+		$this->load->model('tasks_m', 'task');	
+		
+		echo "<pre>";
+		print_r($this->task->getAllTasks($idGantt));
+		echo "</pre>";
+	
+	}
 
 }

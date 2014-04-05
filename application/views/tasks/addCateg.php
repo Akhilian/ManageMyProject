@@ -32,16 +32,28 @@
 			
 				<div class="box">
 					<div class="title">
-						<p class="lead">Ajouter une tache / Etape 3 (sur 3)<hr /></p>
+						<p class="lead">Ajouter une catégorie<hr /></p>
 						
-						<div>Attribution des taches aux utilisateurs.</div>
-
-						<pre>
-						<?php
-							print_r($this->session->all_userdata());
-						?>
-						</pre>
-
+						<form method="post">
+						
+							<label for="name">Nom de la catégorie : </label>
+							<input type="text" name="name" id="name" placeholder="Nom de la catégorie" />
+						
+							<label for="parent">Catégorie parente : </label>
+							<select name="parent">
+								<option value="">Pas de catégorie parente</option>
+								<?php
+									foreach($categories as $categ) {
+										echo '<option value="' . $categ->id . '"> - ' . $categ->name . '</option>';
+									}
+								?>
+							</select>
+							
+							<br />
+							
+							<input type="submit" class="btn btn-primary" />
+						</form>
+						
 					</div>
 				</div>
 				
