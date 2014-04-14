@@ -13,8 +13,6 @@
 		<link href="<?= base_url(); ?>css/datepicker.css" rel="stylesheet" media="screen">
 		<link href="<?= base_url(); ?>css/calendar.css" rel="stylesheet" media="screen">
 		
-		<link href="<?= base_url(); ?>css/gantt.css" rel="stylesheet" media="screen">
-		
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 
 		<script src="http://code.jquery.com/jquery-latest.js"></script>

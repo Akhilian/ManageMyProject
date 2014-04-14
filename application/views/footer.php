@@ -3,8 +3,9 @@
 	<script src="<?= base_url(); ?>js/jquery-ui-1.10.1.custom.min.js"></script>
 	<script src="<?= base_url(); ?>ckeditor/ckeditor.js"></script>
 	<script src="<?= base_url(); ?>js/bootstrap-datepicker.js"></script>
-	
-	<script src="<?= base_url(); ?>js/gantt.js"></script>
+
+	<!-- D3.js - Drawing library -->
+	<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 	
 	<?php
 		if(isset($js)) {
