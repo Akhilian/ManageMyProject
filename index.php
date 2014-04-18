@@ -119,7 +119,11 @@ if (defined('ENVIRONMENT'))
  * Un-comment the $assign_to_config array below to use this feature
  *
  */
-	// $assign_to_config['name_of_config_item'] = 'value of config item';
+
+if( ! ini_get('date.timezone') )
+{
+	date_default_timezone_set('GMT');
+} 
 
 
 
