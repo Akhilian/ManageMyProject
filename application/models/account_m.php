@@ -33,10 +33,13 @@ class Account_m extends CI_Model {
 	
 		if( ! $this->checkExistingEmail($email) ) {
 		
+			$this->load->helper('date');
+
+			echo now();
+
 			$data = array(
 				'email' => $email,
-				'password' => md5($mdp),
-				'date_inscription' => time()
+				'password' => md5($mdp)
 			);
 			
 			$this->db->insert('user', $data);

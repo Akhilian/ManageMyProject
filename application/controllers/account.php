@@ -91,6 +91,10 @@ class Account extends CI_Controller {
 		$this->load->view('footer', array('js' => array('fullcalendar', 'fullcalendar-function')));
 	
 	}
+
+	public function index() {
+		redirect();
+	}
 	
 }
 
