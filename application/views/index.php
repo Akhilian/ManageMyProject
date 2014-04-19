@@ -123,7 +123,6 @@
   <body>
 
 	<div class="row-fluid">
-		
 	</div>
 
 	<div class="row-fluid">

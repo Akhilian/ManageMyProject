@@ -42,6 +42,10 @@
 					</div>
 										
 				</form>
+			
+				<a href="<?php echo site_url('account/register');?>">Je ne suis pas inscrit.</a>
+
+
 			</div>
 			
 		<!--[END] content -->
