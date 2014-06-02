@@ -1,0 +1,21 @@
+/*
+	Author : Adrien SAUNIER
+	Description : This document's aim provide a full CSS description for the rendering of PERT diagrams and is used with D3.js for the HTML/SVG 
+	representation.
+ */
+
+svg {
+
+	/* Disabled selection for user */
+	-webkit-user-select: none;
+  	-moz-user-select: none;
+  	-ms-user-select: none;
+  	-o-user-select: none;
+  	user-select: none;
+}
+
+circle.node {
+	stroke: #FFFFFF !important;
+	stroke-width:1.5px;
+	fill:white;
+}
