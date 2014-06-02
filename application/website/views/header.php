@@ -7,7 +7,6 @@
 	    <!-- Bootstrap -->
 		<link href="<?= base_url(); ?>css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="<?= base_url(); ?>css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-		<link href="<?= base_url(); ?>css/screen.css" rel="stylesheet" media="screen">
 		
 		<link href="<?= base_url(); ?>css/datepicker.css" rel="stylesheet" media="screen">
 
