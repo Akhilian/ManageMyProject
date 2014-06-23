@@ -2,7 +2,6 @@
 
 class Account_m extends CI_Model {
 
-
 	/**
 	* Return : True | False
 	* Retourne vrai si l'adresse email existe déjà dans la base de données, et faux dans le cas contraire
@@ -35,15 +34,12 @@ class Account_m extends CI_Model {
 		
 			$this->load->helper('date');
 
-			echo now();
-
 			$data = array(
 				'email' => $email,
 				'password' => md5($mdp)
 			);
 			
 			$this->db->insert('user', $data);
-		
 		}
 	}
 	
@@ -72,8 +68,8 @@ class Account_m extends CI_Model {
 	}
 	
 	/**
-	* Return : mixed | null
-	* Renvoi les infos utilisateurs
+	 * Return user informations
+	 * @return mixed | null
 	*/
 	function getAccountInformations($email, $mdp) {
 	
@@ -93,6 +89,50 @@ class Account_m extends CI_Model {
 		else {
 			return null;
 		}
+	}
+
+	/**
+	 * Is this account synchronized with github ?
+	 * @return boolean
+	 */
+	function isGithubAccount() {
+
+		if( $this->session->userdata('id') ) {
+			$query = $this->db->query('SELECT * FROM user WHERE id = ? ', array($this->session->userdata('id')));
+
+			return !($query->row()->github_id == NULL);
+		}
+		else
+			show_error('You must be connected.', 403);
+
+	}
+
+	function setGithubAccount($pseudo, $avatar_url) {
+		if( $this->session->userdata('id') ) {
+			$query = $this->db->query(
+				'INSERT INTO github (pseudo, avatar_url) VALUES (?, ?)',
+				array($pseudo, $avatar_url)
+			);
+			
+			$this->db->query(
+				'UPDATE `user` SET `github_id` = ? WHERE user.id = ?',
+				array( $this->db->insert_id() , $this->session->userdata('id') )
+			);
+
+			return $this;
+		}
+		else
+			show_error('You must be connected.', 403);
+	}
+
+	function logOnGithub() {
+		$this->load->library('github');
+		redirect($this->github->get_loginUrl());
+	}
+
+	function getGithubInformations() {
+		$this->load->library('github');
+		return $this->github->get_authenticatedUser();
 	}
 
 }
