@@ -6,9 +6,11 @@
 	<script src="<?= base_url(); ?>js/jquery-ui-1.10.1.custom.min.js"></script>
 	
 	<!-- D3.js - Drawing library -->
+	<!--
 	<script type="text/javascript" src="<?php echo base_url('js/d3.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('js/d3.pert.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('js/pert.js'); ?>"></script>
+	-->
 
 	<style type="text/css">
 svg:not(.active):not(.ctrl) {

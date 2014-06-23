@@ -22,32 +22,42 @@
 			
 			</div>
 			
+
 			<div class="span9 padding-right padding-top">
 			
-				<!--<div class="box">
+				<!--
+				<div class="box">
 					<div class="title">
 						<h1>Adrien Saunier</h1>
 							<blockquote>
-								Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+								Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+								 the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
+								  type and scrambled it to make a type specimen book. It has survived not only five centuries, but
+								   also the leap into electronic typesetting, remaining essentially unchanged. It was popularised
+								    in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
+								     with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 							</blockquote>
 					</div>
-				</div>-->
+				</div>
+				-->
+				
+
 				
 				<div class="box">
 					<div class="title">
-						<p class="lead">Mes disponibilités</p>
-						
-						<div id="calendar"></div>
-						
-						<div id='external-events'>
-							<h4>Draggable Events</h4>
-							<div class='external-event' id="test">My Event 1</div>
-							<div class='external-event'>My Event 2</div>
-							<div class='external-event'>My Event 3</div>
-							<div class='external-event'>My Event 4</div>
-							<div class='external-event'>My Event 5</div>
-						</div>
-					</div>	
+						<h1>Adrien SAUNIER <span class="label label-primary">Akhilian</span></h1>
+						<hr />
+						<?php
+							if( ! isset($github) )
+							{
+							?>
+								<div class="alert alert-info">Did you know ? You can now synchronized your <a href="http://www.github.com/">GitHub</a>
+								account and manage your projects within WIP and improving your managing efficiency,
+								 that's easy ! Just click <a href="<?php echo site_url('account/sync/github'); ?>"><b>here</b></a>.</div>
+							<?php
+							}
+						?>	
+					</div>
 				</div>
 
 			</div>

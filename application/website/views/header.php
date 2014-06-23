@@ -8,10 +8,11 @@
 		<link href="<?= base_url(); ?>css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="<?= base_url(); ?>css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
 		
-		<link href="<?= base_url(); ?>css/datepicker.css" rel="stylesheet" media="screen">
+		<link href="<?= base_url(); ?>css/animate.css" rel="stylesheet" media="screen">
 
 		<!-- TEMPORARY CSS DOCUMENTS -->
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/PERT.css'); ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/screen.css'); ?>">
   </head>
   
   <body>
