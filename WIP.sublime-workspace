@@ -1,0 +1,638 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"source",
+				"source"
+			],
+			[
+				"colo",
+				"console"
+			],
+			[
+				"att",
+				"attribute"
+			],
+			[
+				"ele",
+				"elementID"
+			],
+			[
+				"defa",
+				"defaultOptions"
+			],
+			[
+				"dra",
+				"dragFunction"
+			],
+			[
+				"defau",
+				"defaultOptions"
+			],
+			[
+				"per",
+				"pertOptions"
+			],
+			[
+				"tmp",
+				"tmp"
+			],
+			[
+				"ind",
+				"indexSuccessor"
+			],
+			[
+				"tm",
+				"tmpSuccessors"
+			],
+			[
+				"get",
+				"getTasks"
+			],
+			[
+				"index",
+				"index"
+			],
+			[
+				"prede",
+				"predecessors"
+			],
+			[
+				"cho",
+				"choosenTask"
+			],
+			[
+				"pro",
+				"proceed"
+			],
+			[
+				"task",
+				"taskList"
+			],
+			[
+				"sou",
+				"sourceTask"
+			],
+			[
+				"dep",
+				"depthLvl"
+			],
+			[
+				"edit",
+				"editEarlyDeadline"
+			],
+			[
+				"ed",
+				"editEarlyDeadline"
+			],
+			[
+				"sour",
+				"sourceTask"
+			],
+			[
+				"tas",
+				"taskList"
+			],
+			[
+				"pre",
+				"predecessors"
+			],
+			[
+				"id",
+				"idTask"
+			],
+			[
+				"arra",
+				"Array"
+			],
+			[
+				"nod",
+				"nodesCopy"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"predec",
+				"predecessors"
+			],
+			[
+				"in",
+				"indexTask"
+			],
+			[
+				"for",
+				"forEach"
+			],
+			[
+				"ke",
+				"keys"
+			],
+			[
+				"add",
+				"addPredecessor"
+			],
+			[
+				"taskTo",
+				"taskToDelete"
+			],
+			[
+				"predecessorLi",
+				"predecessorList"
+			],
+			[
+				"ta",
+				"taskList"
+			],
+			[
+				"drag",
+				"drag"
+			],
+			[
+				"tach",
+				"tacheC"
+			],
+			[
+				"json_e",
+				"json_encode"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"Au",
+				"author	@author"
+			],
+			[
+				"bor",
+				"border"
+			],
+			[
+				"di",
+				"diagramm"
+			],
+			[
+				"sess",
+				"session_userdata	CI - Session - Retrieving Session Data"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"is_nu",
+				"is_numeric"
+			],
+			[
+				"funct",
+				"create_function"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "js/d3.pert.js",
+			"settings":
+			{
+				"buffer_size": 12161,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "application/website/views/footer.php",
+			"settings":
+			{
+				"buffer_size": 1693,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/pert.js",
+			"settings":
+			{
+				"buffer_size": 8221,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "import \"../behavior/drag\";\nimport \"../core/identity\";\nimport \"../core/rebind\";\nimport \"../event/event\";\nimport \"../event/dispatch\";\nimport \"../event/timer\";\nimport \"../geom/quadtree\";\nimport \"layout\";\n\n// A rudimentary force layout using Gauss-Seidel.\nd3.layout.force = function() {\n  var force = {},\n      event = d3.dispatch(\"start\", \"tick\", \"end\"),\n      size = [1, 1],\n      drag,\n      alpha,\n      friction = .9,\n      linkDistance = d3_layout_forceLinkDistance,\n      linkStrength = d3_layout_forceLinkStrength,\n      charge = -30,\n      chargeDistance2 = d3_layout_forceChargeDistance2,\n      gravity = .1,\n      theta2 = .64,\n      nodes = [],\n      links = [],\n      distances,\n      strengths,\n      charges;\n\n  function repulse(node) {\n    return function(quad, x1, _, x2) {\n      if (quad.point !== node) {\n        var dx = quad.cx - node.x,\n            dy = quad.cy - node.y,\n            dw = x2 - x1,\n            dn = dx * dx + dy * dy;\n\n        /* Barnes-Hut criterion. */\n        if (dw * dw / theta2 < dn) {\n          if (dn < chargeDistance2) {\n            var k = quad.charge / dn;\n            node.px -= dx * k;\n            node.py -= dy * k;\n          }\n          return true;\n        }\n\n        if (quad.point && dn && dn < chargeDistance2) {\n          var k = quad.pointCharge / dn;\n          node.px -= dx * k;\n          node.py -= dy * k;\n        }\n      }\n      return !quad.charge;\n    };\n  }\n\n  force.tick = function() {\n    // simulated annealing, basically\n    if ((alpha *= .99) < .005) {\n      event.end({type: \"end\", alpha: alpha = 0});\n      return true;\n    }\n\n    var n = nodes.length,\n        m = links.length,\n        q,\n        i, // current index\n        o, // current object\n        s, // current source\n        t, // current target\n        l, // current distance\n        k, // current force\n        x, // x-distance\n        y; // y-distance\n\n    // gauss-seidel relaxation for links\n    for (i = 0; i < m; ++i) {\n      o = links[i];\n      s = o.source;\n      t = o.target;\n      x = t.x - s.x;\n      y = t.y - s.y;\n      if (l = (x * x + y * y)) {\n        l = alpha * strengths[i] * ((l = Math.sqrt(l)) - distances[i]) / l;\n        x *= l;\n        y *= l;\n        t.x -= x * (k = s.weight / (t.weight + s.weight));\n        t.y -= y * k;\n        s.x += x * (k = 1 - k);\n        s.y += y * k;\n      }\n    }\n\n    // apply gravity forces\n    if (k = alpha * gravity) {\n      x = size[0] / 2;\n      y = size[1] / 2;\n      i = -1; if (k) while (++i < n) {\n        o = nodes[i];\n        o.x += (x - o.x) * k;\n        o.y += (y - o.y) * k;\n      }\n    }\n\n    // compute quadtree center of mass and apply charge forces\n    if (charge) {\n      d3_layout_forceAccumulate(q = d3.geom.quadtree(nodes), alpha, charges);\n      i = -1; while (++i < n) {\n        if (!(o = nodes[i]).fixed) {\n          q.visit(repulse(o));\n        }\n      }\n    }\n\n    // position verlet integration\n    i = -1; while (++i < n) {\n      o = nodes[i];\n      if (o.fixed) {\n        o.x = o.px;\n        o.y = o.py;\n      } else {\n        o.x -= (o.px - (o.px = o.x)) * friction;\n        o.y -= (o.py - (o.py = o.y)) * friction;\n      }\n    }\n\n    event.tick({type: \"tick\", alpha: alpha});\n  };\n\n  force.nodes = function(x) {\n    if (!arguments.length) return nodes;\n    nodes = x;\n    return force;\n  };\n\n  force.links = function(x) {\n    if (!arguments.length) return links;\n    links = x;\n    return force;\n  };\n\n  force.size = function(x) {\n    if (!arguments.length) return size;\n    size = x;\n    return force;\n  };\n\n  force.linkDistance = function(x) {\n    if (!arguments.length) return linkDistance;\n    linkDistance = typeof x === \"function\" ? x : +x;\n    return force;\n  };\n\n  // For backwards-compatibility.\n  force.distance = force.linkDistance;\n\n  force.linkStrength = function(x) {\n    if (!arguments.length) return linkStrength;\n    linkStrength = typeof x === \"function\" ? x : +x;\n    return force;\n  };\n\n  force.friction = function(x) {\n    if (!arguments.length) return friction;\n    friction = +x;\n    return force;\n  };\n\n  force.charge = function(x) {\n    if (!arguments.length) return charge;\n    charge = typeof x === \"function\" ? x : +x;\n    return force;\n  };\n\n  force.chargeDistance = function(x) {\n    if (!arguments.length) return Math.sqrt(chargeDistance2);\n    chargeDistance2 = x * x;\n    return force;\n  };\n\n  force.gravity = function(x) {\n    if (!arguments.length) return gravity;\n    gravity = +x;\n    return force;\n  };\n\n  force.theta = function(x) {\n    if (!arguments.length) return Math.sqrt(theta2);\n    theta2 = x * x;\n    return force;\n  };\n\n  force.alpha = function(x) {\n    if (!arguments.length) return alpha;\n\n    x = +x;\n    if (alpha) { // if we're already running\n      if (x > 0) alpha = x; // we might keep it hot\n      else alpha = 0; // or, next tick will dispatch \"end\"\n    } else if (x > 0) { // otherwise, fire it up!\n      event.start({type: \"start\", alpha: alpha = x});\n      d3.timer(force.tick);\n    }\n\n    return force;\n  };\n\n  force.start = function() {\n    var i,\n        n = nodes.length,\n        m = links.length,\n        w = size[0],\n        h = size[1],\n        neighbors,\n        o;\n\n    for (i = 0; i < n; ++i) {\n      (o = nodes[i]).index = i;\n      o.weight = 0;\n    }\n\n    for (i = 0; i < m; ++i) {\n      o = links[i];\n      if (typeof o.source == \"number\") o.source = nodes[o.source];\n      if (typeof o.target == \"number\") o.target = nodes[o.target];\n      ++o.source.weight;\n      ++o.target.weight;\n    }\n\n    for (i = 0; i < n; ++i) {\n      o = nodes[i];\n      if (isNaN(o.x)) o.x = position(\"x\", w);\n      if (isNaN(o.y)) o.y = position(\"y\", h);\n      if (isNaN(o.px)) o.px = o.x;\n      if (isNaN(o.py)) o.py = o.y;\n    }\n\n    distances = [];\n    if (typeof linkDistance === \"function\") for (i = 0; i < m; ++i) distances[i] = +linkDistance.call(this, links[i], i);\n    else for (i = 0; i < m; ++i) distances[i] = linkDistance;\n\n    strengths = [];\n    if (typeof linkStrength === \"function\") for (i = 0; i < m; ++i) strengths[i] = +linkStrength.call(this, links[i], i);\n    else for (i = 0; i < m; ++i) strengths[i] = linkStrength;\n\n    charges = [];\n    if (typeof charge === \"function\") for (i = 0; i < n; ++i) charges[i] = +charge.call(this, nodes[i], i);\n    else for (i = 0; i < n; ++i) charges[i] = charge;\n\n    // inherit node position from first neighbor with defined position\n    // or if no such neighbors, initialize node position randomly\n    // initialize neighbors lazily to avoid overhead when not needed\n    function position(dimension, size) {\n      if (!neighbors) {\n        neighbors = new Array(n);\n        for (j = 0; j < n; ++j) {\n          neighbors[j] = [];\n        }\n        for (j = 0; j < m; ++j) {\n          var o = links[j];\n          neighbors[o.source.index].push(o.target);\n          neighbors[o.target.index].push(o.source);\n        }\n      }\n      var candidates = neighbors[i],\n          j = -1,\n          m = candidates.length,\n          x;\n      while (++j < m) if (!isNaN(x = candidates[j][dimension])) return x;\n      return Math.random() * size;\n    }\n\n    return force.resume();\n  };\n\n  force.resume = function() {\n    return force.alpha(.1);\n  };\n\n  force.stop = function() {\n    return force.alpha(0);\n  };\n\n  // use `node.call(force.drag)` to make nodes draggable\n  force.drag = function() {\n    if (!drag) drag = d3.behavior.drag()\n        .origin(d3_identity)\n        .on(\"dragstart.force\", d3_layout_forceDragstart)\n        .on(\"drag.force\", dragmove)\n        .on(\"dragend.force\", d3_layout_forceDragend);\n\n    if (!arguments.length) return drag;\n\n    this.on(\"mouseover.force\", d3_layout_forceMouseover)\n        .on(\"mouseout.force\", d3_layout_forceMouseout)\n        .call(drag);\n  };\n\n  function dragmove(d) {\n    d.px = d3.event.x, d.py = d3.event.y;\n    force.resume(); // restart annealing\n  }\n\n  return d3.rebind(force, event, \"on\");\n};\n\n// The fixed property has three bits:\n// Bit 1 can be set externally (e.g., d.fixed = true) and show persist.\n// Bit 2 stores the dragging state, from mousedown to mouseup.\n// Bit 3 stores the hover state, from mouseover to mouseout.\n// Dragend is a special case: it also clears the hover state.\n\nfunction d3_layout_forceDragstart(d) {\n  d.fixed |= 2; // set bit 2\n}\n\nfunction d3_layout_forceDragend(d) {\n  d.fixed &= ~6; // unset bits 2 and 3\n}\n\nfunction d3_layout_forceMouseover(d) {\n  d.fixed |= 4; // set bit 3\n  d.px = d.x, d.py = d.y; // set velocity to zero\n}\n\nfunction d3_layout_forceMouseout(d) {\n  d.fixed &= ~4; // unset bit 3\n}\n\nfunction d3_layout_forceAccumulate(quad, alpha, charges) {\n  var cx = 0,\n      cy = 0;\n  quad.charge = 0;\n  if (!quad.leaf) {\n    var nodes = quad.nodes,\n        n = nodes.length,\n        i = -1,\n        c;\n    while (++i < n) {\n      c = nodes[i];\n      if (c == null) continue;\n      d3_layout_forceAccumulate(c, alpha, charges);\n      quad.charge += c.charge;\n      cx += c.charge * c.cx;\n      cy += c.charge * c.cy;\n    }\n  }\n  if (quad.point) {\n    // jitter internal nodes that are coincident\n    if (!quad.leaf) {\n      quad.point.x += Math.random() - .5;\n      quad.point.y += Math.random() - .5;\n    }\n    var k = alpha * charges[quad.point.index];\n    quad.charge += quad.pointCharge = k;\n    cx += k * quad.point.x;\n    cy += k * quad.point.y;\n  }\n  quad.cx = cx / quad.charge;\n  quad.cy = cy / quad.charge;\n}\n\nvar d3_layout_forceLinkDistance = 20,\n    d3_layout_forceLinkStrength = 1,\n    d3_layout_forceChargeDistance2 = Infinity;",
+			"settings":
+			{
+				"buffer_size": 9457,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 167.0,
+		"selected_items":
+		[
+			[
+				"inden",
+				"Indent XML"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Set syntax:P",
+				"Set Syntax: PHP"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/alwin/Downloads/Aaargh-fontfacekit/web fonts/aaargh_normal_macroman/Aaargh-demo.html",
+		"/Users/alwin/Sites/wip/application/website/controllers/account.php",
+		"/Users/alwin/Sites/wip/index.php",
+		"/Users/alwin/Desktop/LO10/ImageProcessor.xml",
+		"/Users/alwin/Desktop/LO10/image-base64.txt",
+		"/Users/alwin/Sites/wip/application/api/config/constants.php",
+		"/Users/alwin/Sites/wip/license.txt",
+		"/Users/alwin/Sites/wip/application/website/libraries/mpdf/includes/subs_core.php",
+		"/Users/alwin/Sites/wip/WIP.sublime-project",
+		"/Users/alwin/Sites/wip/ckeditor/lang/gl.js",
+		"/Users/alwin/Sites/wip/application/api/errors/error_general.php",
+		"/Users/alwin/Sites/wip/ckeditor/lang/et.js",
+		"/Users/alwin/Sites/wip/application/website/libraries/mpdf/CHANGELOG.txt",
+		"/Users/alwin/Sites/wip/application/views/header.php",
+		"/Users/alwin/Sites/wip/application/views/footer.php",
+		"/Users/alwin/Sites/wip/application/models/tasks_m.php",
+		"/Users/alwin/Sites/wip/application/models/gantt_m.php",
+		"/Users/alwin/Sites/wip/js/pert.js",
+		"/Users/alwin/Sites/wip/application/controllers/gantt.php",
+		"/Users/alwin/Sites/wip/application/.htaccess",
+		"/Users/alwin/Sites/wip/css/PERT.css",
+		"/Users/alwin/Sites/wip/application/views/gantt/diagramm3.php",
+		"/Users/alwin/Sites/wip/application/controllers/project.php",
+		"/Users/alwin/Sites/wip/application/controllers/tasks.php",
+		"/Users/alwin/Sites/wip/application/views/tasks/index.php",
+		"/Users/alwin/Sites/wip/css/screen.css",
+		"/Users/alwin/Sites/wip/application/errors/error_db.php",
+		"/Users/alwin/Sites/wip/js/editor.js",
+		"/Users/alwin/Sites/wip/application/views/project/edit.php",
+		"/Users/alwin/Sites/wip/application/views/project/index.php",
+		"/Users/alwin/Sites/wip/application/controllers/home.php",
+		"/Users/alwin/Sites/wip/application/views/index.php",
+		"/Users/alwin/Sites/wip/application/models/category_m.php",
+		"/Users/alwin/Sites/wip/js/datepicker.js",
+		"/Users/alwin/Sites/wip/application/controllers/account.php",
+		"/Users/alwin/Sites/wip/application/models/account_m.php",
+		"/Users/alwin/Desktop/text1",
+		"/Users/alwin/Sites/wip/ckeditor/plugins/tabletools/dialogs/tableCell.js",
+		"/Users/alwin/Sites/wip/ckeditor/plugins/table/dialogs/table.js",
+		"/Users/alwin/Sites/wip/application/config/constants.php",
+		"/Users/alwin/Sites/wip/ckeditor/plugins/scayt/dialogs/toolbar.css",
+		"/Users/alwin/Sites/wip/application/libraries/mpdf/includes/subs_core.php",
+		"/Users/alwin/Sites/wip/application/views/tasks/addCateg.php",
+		"/Users/alwin/Sites/wip/doc/alt.sql",
+		"/Users/alwin/Sites/wip/application/controllers/index.html",
+		"/Users/alwin/Sites/wip/application/config/index.html",
+		"/Users/alwin/Sites/wip/application/cache/index.html",
+		"/Users/alwin/Sites/wip/system/index.html",
+		"/Users/alwin/Sites/wip/application/index.html",
+		"/Users/alwin/Sites/wip/css/site",
+		"/Users/alwin/Sites/wip/application/config/database.php",
+		"/Users/alwin/Sites/wip/application/views/account/login.php",
+		"/Users/alwin/Sites/wip/application/config/doctypes.php",
+		"/Users/alwin/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/alwin/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/alwin/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/alwin/Desktop/Ls, awk & sh :",
+		"/Users/alwin/Sites/wip/.htaccess",
+		"/private/etc/apache2/httpd.conf",
+		"/Users/alwin/Sites/wip/application/config/config.php",
+		"/Users/alwin/tmp/2.htm"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"PATH_IN",
+			"circl",
+			"start-",
+			"svg.",
+			"option",
+			"svg.",
+			"path",
+			"circle",
+			"path",
+			"force.",
+			"force",
+			"start",
+			"mouseover",
+			"for",
+			"dispatch",
+			"start",
+			"d3_iden",
+			"drag",
+			"path",
+			"position",
+			"critical",
+			"latest",
+			"console",
+			"getNodePer",
+			"getNo",
+			"consol",
+			"special",
+			"earli",
+			"source",
+			"filter",
+			"file",
+			"maxDep",
+			"applica",
+			"selectAll",
+			"nodes",
+			"nodes.",
+			"node.data",
+			"dragst",
+			"id",
+			"}\n",
+			"d3.",
+			"diagramm",
+			"#diagramm",
+			"#diagram",
+			"timezone",
+			"009B9D",
+			"francais",
+			"AllowOverride",
+			"AllowOv"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			": "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "js/d3.pert.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12161,
+						"regions":
+						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "dot",
+								"regions":
+								[
+								],
+								"scope": "mark"
+							}
+						},
+						"selection":
+						[
+							[
+								10800,
+								10800
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6759.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/website/views/footer.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1693,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1426,
+								1426
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 510.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/pert.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3520,
+								3520
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1230.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6349,
+								6352
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "WIP.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"accou",
+				"application/models/account_m.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 239.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
