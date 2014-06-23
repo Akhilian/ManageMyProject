@@ -1,62 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Error</title>
-<style type="text/css">
+<html>
+	<head>
+		<title>[Manage My Projet] - by Alwin</title>
+	
+	    <!-- Bootstrap -->
+		<link href="<?= base_url(); ?>css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="<?= base_url(); ?>css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+  
+  <style type="text/css">
+		
+		body {
+			background-image: url('<?= base_url(); ?>img/wild_oliva.png');
+			color: white;
+		}
+		
+		.wrapper {
+			margin-top: 200px;
+		}
+		
+		.alert {
+			background-color:transparent;
+			border: 1px dashed white;
+			
+			color: white;
+		}
 
-::selection{ background-color: #E13300; color: white; }
-::moz-selection{ background-color: #E13300; color: white; }
-::webkit-selection{ background-color: #E13300; color: white; }
+		.logo {
+			text-align: right;
+		}
+		
+  </style>
+  
+  </head>
+  
+  <body>
+  
+  	<!--[START] wrapper -->
+  	<div id="wrapper" class="container wrapper">
+  
+		<!--[START] content -->
+		<div class="row-fluid">
+			
+			<div class="span4 logo">
+				<img src="<?= base_url(); ?>img/logo1.png" align="ManageMyProject" />
+			</div>
+			
+			<div class="span8">
+				<p class="lead"><?php echo $status_code; ?> - <?php echo str_replace(array('<p>', '</p>'), '', $message); ?></p>
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
-
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
-
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
-
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
-
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	-webkit-box-shadow: 0 0 8px #D0D0D0;
-}
-
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
-</head>
-<body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+				<p>Aïe … Une erreur imprévue a été découverte.<br />
+				Si l'erreur se reproduit, n'hésitez pas à nous la signaler, nous essayerons de résoudre ce problème au plus vite.</p>
+				<p><a href="<?= site_url(); ?>" class="btn">Revenir à l'accueil</a></p>
+			</div>
+			
+		<!--[END] content -->
+		</div>
+		
+	<!--[END] wrapper -->
 	</div>
-</body>
+		
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+  </body>
 </html>
