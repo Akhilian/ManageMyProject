@@ -1,0 +1,202 @@
+body {
+	background-image: url('../img/wild_oliva.png');
+	color: white;
+}
+
+.wrapper {
+	margin-top: 100px;
+}
+
+#wrapper {
+	margin-bottom: 50px;
+}
+
+.padding-right {
+	padding-right: 50px;
+}
+
+.padding-top {
+	padding-top: 50px;
+}
+
+.alert-custom {
+	background-color:transparent;
+	border: 1px dashed white;
+	
+	color: white;
+}
+
+.logo {
+	text-align: right;
+}
+
+
+@media (max-width: 767px) {
+	
+	#wrapper {
+		margin-top: 50px;
+	}
+
+	.logo {
+		background-color: transparent;
+		text-align: center;
+	}
+	
+	.padding-right, .padding-top {
+		padding-right: 0px;
+	}
+	
+}
+
+.box {
+	color: #414141;
+
+	background-color: white;
+	border: 0;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+	
+	margin-bottom: 15px;
+
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.box .title {
+	padding: 15px 20px;
+}
+
+.box .title textarea {
+	width: 98%;
+}
+
+.box h1 {
+	font-size: 28px;
+	font-weight: normal;
+}
+
+.box .thumb {
+	text-align: right;
+	background-color: #CCCCCC;
+	padding: 5px 15px 5px 5px;
+}
+
+.box .thumb a {
+	margin-left: 10px;
+}
+
+.new-box {
+    height: 120px;
+	border: 1px dashed white;
+}
+
+a .new-box {
+	color: white;
+}
+
+a.new-box:hover {
+	text-decoration: none;
+}
+
+.new-box:hover {
+	color: #08c;
+	border: 1px dashed #08c;
+}
+
+.new-box .title{
+	padding: 10px 20px 15px 30px;
+}
+
+.new-box h1 {
+	font-size: 32px;
+}
+
+.controls textarea {
+	width: 98%;
+	height: 100px;
+}
+
+.menu {
+	padding: 30px;
+	font-weight: 300;
+}
+
+.menu .nav a {
+	color: white;
+	display:inline;
+}
+
+.menu .nav a:hover {
+	background-color: transparent;
+	text-decoration: underline;
+}
+
+.menu.row-fluid {
+	padding: 0;
+}
+
+.index .menu{
+	width: 100%;
+	height: 50px;
+	
+	background-color: black;
+	opacity: 0.3;
+}
+
+.editor {
+	margin-bottom: 15px;
+}
+
+/*********
+* TASKS
+*/
+
+.tasks ul {
+	list-style: none;
+}
+
+.tasks li {
+	padding: 5px inherit;
+	border-bottom: solid #414141 1px;
+}
+
+.tasks li.category {
+	font-weight: bold;
+}
+
+/******************
+* PROFIL
+*/
+
+.profilpic {
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+}
+
+
+/*---------------Background -----------*/
+.logo { background:url(../img/logo.png) no-repeat; margin:28px 0 0; }
+
+/*---------------Button -----------*/
+
+.bt2 {  background-color:#00c9ed; }
+
+/*--------- Slider Active Pagination --------*/
+
+#nav a.activeSlide {  background-color:#00c9ed; }	
+
+/*--------- Features Hover Effect --------*/
+
+.featu h3.feature-active { color:#00c9ed; }	
+.featu p.plus-active  { background-color:#00c9ed; }
+
+/*--------- Z-LAYOUT colors --------*/
+
+.text-right p.subtitles  { color:#00c9ed; }
+.text-left p.subtitles  {  color:#00c9ed; }
+.bts2 {  background-color:#00c9ed; }
+
+/*--------- Newsletter Submit --------*/
+
+input.button-newsletter { background:url(../img/submit.png) no-repeat 24px 10px #00c9ed; }
